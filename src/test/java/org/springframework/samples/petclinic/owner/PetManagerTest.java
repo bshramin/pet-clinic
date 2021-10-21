@@ -190,4 +190,54 @@ class PetManagerTest {
 		assertTrue(visits.contains(visit1));
 		assertFalse(visits.contains(visit2));
 	}
+
+	// Behavior Verification Test
+	@Test
+	public void testGetOwnerPetsBehaviorVerification() {
+		// Setup
+		Owner alex = mock(Owner.class);
+		Pet bob = new Pet();
+		bob.setId(23);
+		Pet betty = new Pet();
+		betty.setId(25);
+		List<Pet> alexPets = new ArrayList<Pet>();
+		alexPets.add(bob);
+		alexPets.add(betty);
+
+		when(alex.getPets()).thenReturn(alexPets);
+		when(ownerRepository.findById(alex.getId())).thenReturn(alex);
+
+		// Exercise
+		List<Pet> pets = petManager.getOwnerPets(alex.getId());
+
+		// Verify
+		// Behavior
+		verify(ownerRepository).findById(alex.getId());
+		verify(alex).getPets();
+	}
+
+	// State Verification Test
+	@Test
+	public void testGetOwnerPetsStateVerification() {
+		// Setup
+		Owner alex = new Owner();
+		alex.setId(2);
+		Pet bob = new Pet();
+		bob.setId(23);
+		Pet betty = new Pet();
+		betty.setId(25);
+		alex.addPet(bob);
+		alex.addPet(betty);
+
+		when(ownerRepository.findById(alex.getId())).thenReturn(alex);
+
+		// Exercise
+		List<Pet> pets = petManager.getOwnerPets(alex.getId());
+
+		// Verify
+		// State
+		assertEquals(pets, alex.getPets());
+	}
+
+
 }
