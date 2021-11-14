@@ -11,23 +11,23 @@ public class SimplePriceCalculator implements PriceCalculator {
 
     @Override
     public double calcPrice(List<Pet> pets, double baseCharge, double basePricePerPet, UserType userType) {
-        double totalPrice = baseCharge;
+        double totalPrice = baseCharge; // A
 
-        for (int i=0; i<pets.size(); i++) {
-            double price = 0;
+        for (int i=0; i<pets.size(); i++) { // B
+            double price = 0; // C
 
-            if (pets.get(i).getType().getRare()) {
-                price = basePricePerPet * BASE_RARE_COEF;
+            if (pets.get(i).getType().getRare()) { // E
+                price = basePricePerPet * BASE_RARE_COEF; // G
             } else {
-                price = basePricePerPet;
+                price = basePricePerPet; // F
             }
-            totalPrice += price;
+            totalPrice += price; // H
         }
 
-        if (userType == UserType.NEW) {
-                totalPrice = totalPrice * userType.discountRate;
+        if (userType == UserType.NEW) { // D
+                totalPrice = totalPrice * userType.discountRate; // K
         }
 
-        return totalPrice;
+        return totalPrice; // M
     }
 }
